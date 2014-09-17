@@ -1,1 +1,6 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>engine.js</file>
+    </qresource>
+</RCC>
