@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtQuick.Window 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.1
-import "engine.js" as QiverEngine
+import "js/engine.js" as QiverEngine
 
 ApplicationWindow {
     id: app
@@ -15,10 +15,14 @@ ApplicationWindow {
 
     title: "Qiver"
 
-    FileDialog{
-        id: openLocalFileDialog
-        title: qsTr("Open QML file")
-        onAccepted: loadFile(fileUrl)
+    Dialogs{
+        id: dialogs
+        Component.onCompleted: {
+            openLocalQmlFileDialog.accepted.connect(
+                        function(){
+                            app.loadFile(openLocalQmlFileDialog.fileUrl)
+                        });
+        }
     }
 
     // App properties
@@ -33,7 +37,10 @@ ApplicationWindow {
 
             MenuItem{
                 text: qsTr("&Open...")
-                onTriggered: openLocalFileDialog.open();
+                onTriggered: {
+                    dialogs.openLocalQmlFileDialog.open();
+
+                }
                 shortcut: "Alt+O"
 
             }

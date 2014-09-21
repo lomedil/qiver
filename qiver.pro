@@ -28,12 +28,18 @@ OBJECTS_DIR = ./temp
 INCLUDEPATH +=  ./include
 
 ## Files for project
-SOURCES = src/main.cpp
 SOURCES = $$dirFiles(./src)
 
 HEADERS += $$dirFiles(./include)
 
 RESOURCES += ./qml/qml.qrc
+
+OTHER_FILES +=  ./qml/main.qml \
+                ./qml/dialogs.qml \
+    qml/Dialogs.qml
+
+
+OTHER_FILES += ./qml/js/engine.js
 
 
 
