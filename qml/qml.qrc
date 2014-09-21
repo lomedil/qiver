@@ -1,1 +1,7 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>js/engine.js</file>
+        <file>Dialogs.qml</file>
+    </qresource>
+</RCC>
