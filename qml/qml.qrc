@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>js/engine.js</file>
         <file>Dialogs.qml</file>
+        <file>ContentFrame.qml</file>
     </qresource>
 </RCC>
