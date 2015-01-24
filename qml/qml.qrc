@@ -4,5 +4,8 @@
         <file>js/engine.js</file>
         <file>Dialogs.qml</file>
         <file>ContentFrame.qml</file>
+        <file>OutputPanel.qml</file>
+        <file>shared/AwesomeIcon.qml</file>
+        <file>shared/awesome.js</file>
     </qresource>
 </RCC>

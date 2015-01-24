@@ -2,12 +2,13 @@ import QtQuick 2.1
 import QtQuick.Window 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.1
+import QtQuick.Layouts 1.1
 
 ApplicationWindow {
     id: app
     visible: true
-    width: 800
-    height: 600
+    width: 1024
+    height: 768
     x: (Screen.width-width)/2
     y: (Screen.height-height)/2
 
@@ -26,7 +27,7 @@ ApplicationWindow {
 
     // App properties
     property alias fileLoaded: contentframe.source
-    property bool fitToComponentSize: true
+    property bool showOutputPanel: true
 
     // Menubar
     menuBar: MenuBar{
@@ -58,12 +59,15 @@ ApplicationWindow {
 
         Menu{
             title: qsTr("View")
+            MenuItem{
+                text: checked ? qsTr("Hide ouput") : qsTr("Show Output")
+                checked: showOutputPanel
+                checkable: true
+                onToggled: showOutputPanel = checked
+
+            }
         }
     }
-
-    // Menu callbacks
-
-
 
 
     // Simple error text
@@ -79,15 +83,47 @@ ApplicationWindow {
 
     }
 
-    // Client item where loaded object will be shown
-    ContentFrame{
-        id: contentframe
-        anchors{
-            fill: parent
+    SplitView{
+        anchors.fill: parent
+        orientation: Qt.Vertical
+
+
+        // Client item where loaded object will be shown
+        ContentFrame{
+            id: contentframe
+
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            onContentCleared: cacheManager.clearCache() //Flush the whole cache
+
         }
 
-        onContentCleared: cacheManager.clearCache() //Flush the whole cache
+        Item{
+            id: panelsFrame
 
+
+            Layout.fillWidth: true
+            Layout.maximumHeight: parent.height/2
+            implicitHeight: 200
+            height: visible ? implicitHeight : 0
+
+            visible: showOutputPanel
+
+
+            TabView{
+                anchors.fill: parent
+
+                Tab{
+                    title: qsTr("Ouput")
+                    OutputPanel{
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        model: outputModel
+                    }
+                }
+            }
+        }
     }
 
 

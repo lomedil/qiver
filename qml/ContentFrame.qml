@@ -29,6 +29,7 @@ Rectangle {
     }
 
     function loadFile(file){
+        clearContent();
         console.log("Loading " + file);
         root.source = file;
 
@@ -37,7 +38,6 @@ Rectangle {
             error = newComponent.errorString();
             console.log("Error loading component: "+ error);
         }else{
-            clearContent();
             contentComponent = newComponent;
             error = "";
 
