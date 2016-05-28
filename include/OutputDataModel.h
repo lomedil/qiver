@@ -59,6 +59,9 @@ public:
     bool onlyQmlFiles() const;
     void setOnlyQmlFiles(bool value);
 
+private:
+    void onCountChanged();
+
 
     // Variables
 private:

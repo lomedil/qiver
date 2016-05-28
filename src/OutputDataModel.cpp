@@ -92,7 +92,7 @@ void OutputDataModel::addOutput(QtMsgType type, const QMessageLogContext &contex
     m_entries << newEntry;
     endInsertRows();
 
-    emit countChanged();
+    onCountChanged();
 
 }
 
@@ -113,4 +113,9 @@ void OutputDataModel::setOnlyQmlFiles(bool value)
     if(m_onlyQmlFiles == value) return;
 
     m_onlyQmlFiles = value;
+}
+
+void OutputDataModel::onCountChanged()
+{
+    this->metaObject()->invokeMethod(this, "countChanged", Qt::QueuedConnection);
 }
