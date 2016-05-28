@@ -3,6 +3,7 @@ import QtQuick.Window 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.1
+import "."
 
 ApplicationWindow {
     id: app
@@ -13,7 +14,7 @@ ApplicationWindow {
     y: (Screen.height-height)/2
 
 
-    title: "Qiver"
+    title: "Qiver (%1x%2)".arg(contentframe.portviewWidth).arg(contentframe.portviewHeight)
 
     Dialogs{
         id: dialogs
@@ -21,6 +22,13 @@ ApplicationWindow {
             openLocalQmlFileDialog.accepted.connect(
                         function(){
                             contentframe.loadFile(openLocalQmlFileDialog.fileUrl)
+                        });
+            customSizeDialog.accepted.connect(
+                        function(){
+                            var size = customSizeDialog.customSize;
+                            if(size == Qt.size(0,0)) return;
+                            contentframe.portviewHeight = size.height;
+                            contentframe.portviewWidth = size.width;
                         });
         }
     }
@@ -30,43 +38,13 @@ ApplicationWindow {
     property bool showOutputPanel: true
 
     // Menubar
-    menuBar: MenuBar{
-        id: menuBar
-        Menu{
-            title: qsTr("File")
-
-            MenuItem{
-                text: qsTr("&Open...")
-                onTriggered: {
-                    dialogs.openLocalQmlFileDialog.open();
-                }
-                shortcut: "Alt+O"
-
-            }
-            MenuItem{
-                text: qsTr("Reload")
-                shortcut: "F5"
-                onTriggered: contentframe.reload()
-
-            }
-
-            MenuSeparator{} // -----
-
-            MenuItem{
-                text: qsTr("Exit")
-            }
-        }
-
-        Menu{
-            title: qsTr("View")
-            MenuItem{
-                text: checked ? qsTr("Hide ouput") : qsTr("Show Output")
-                checked: showOutputPanel
-                checkable: true
-                onToggled: showOutputPanel = checked
-
-            }
-        }
+    menuBar: QiverMenuBar{
+        id: menu
+        onReloadClicked: contentframe.reload();
+        onOpenFileClicked: dialogs.openLocalQmlFileDialog.open()
+        onExitClicked: app.close()
+        showOutputPanel: true
+        onCustomSizeClicked: dialogs.customSizeDialog.open()
     }
 
 
@@ -84,8 +62,9 @@ ApplicationWindow {
     }
 
     SplitView{
+        id: splitter
         anchors.fill: parent
-        orientation: Qt.Vertical
+        orientation: menu.portviewOrientation==Qt.Vertical ? Qt.Horizontal : Qt.Vertical
 
 
         // Client item where loaded object will be shown
@@ -97,18 +76,24 @@ ApplicationWindow {
 
             onContentCleared: cacheManager.clearCache() //Flush the whole cache
 
+            portviewHeight: menu.portviewSizeSelected.height
+            portviewWidth: menu.portviewSizeSelected.width
+            portviewOrientation: menu.portviewOrientation
+
         }
 
         Item{
             id: panelsFrame
 
 
-            Layout.fillWidth: true
-            Layout.maximumHeight: parent.height/2
-            implicitHeight: 200
-            height: visible ? implicitHeight : 0
+            Layout.fillWidth: splitter.orientation == Qt.Vertical
+            Layout.fillHeight: splitter.orientation == Qt.Horizontal
 
-            visible: showOutputPanel
+            implicitHeight: 200
+            implicitWidth: 200
+
+
+            visible: menu.showOutputPanel
 
 
             TabView{

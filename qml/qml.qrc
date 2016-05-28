@@ -7,5 +7,7 @@
         <file>OutputPanel.qml</file>
         <file>shared/AwesomeIcon.qml</file>
         <file>shared/awesome.js</file>
+        <file>QiverMenuBar.qml</file>
+        <file>CustomSizeDialog.qml</file>
     </qresource>
 </RCC>

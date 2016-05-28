@@ -33,12 +33,3 @@ SOURCES = $$dirFiles(./src)
 HEADERS += $$dirFiles(./include)
 
 RESOURCES += ./qml/qml.qrc
-
-OTHER_FILES +=  ./qml/main.qml \
-                ./qml/dialogs.qml \
-                ./qml/Dialogs.qml \
-                ./qml/ContentFrame.qml \
-                ./qml/OutputPanel.qml \
-                ./qml/shared/AwesomeIcon.qml \
-                ./qml/shared/awesome.js \
-                ./qml/js/engine.js

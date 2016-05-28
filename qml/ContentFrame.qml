@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: root
@@ -13,6 +14,10 @@ Rectangle {
     property string source
     property string error
     property bool fitToComponentSize: true
+
+    property int portviewWidth: 800
+    property int portviewHeight: 600
+    property int portviewOrientation: Qt.Horizontal
 
     signal contentCleared()
 
@@ -49,8 +54,25 @@ Rectangle {
         }
     }
 
+    RectangularGlow {
+            id: effect
+            anchors.fill: client
+            glowRadius: 10
+            spread: 0.2
+            color: "#ddd"
+            cornerRadius: glowRadius
+        }
+
+    Rectangle{
+        anchors.fill: client
+        color: "white"
+
+    }
+
     Item{
         id: client
-        anchors.fill: parent
+        anchors.centerIn: parent
+        width: portviewOrientation == Qt.Horizontal ? portviewWidth : portviewHeight
+        height: portviewOrientation == Qt.Horizontal ? portviewHeight : portviewWidth
     }
 }
