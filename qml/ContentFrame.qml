@@ -24,6 +24,10 @@ Rectangle {
     function clearContent(){
         if(contentItem) contentItem.destroy()
         if(contentComponent) contentComponent.destroy();
+        for(var i = client.children.length-1; i >= 0; --i)
+            client.children[i].destroy();
+        error = "";
+        source = "";
         contentCleared();
     }
 

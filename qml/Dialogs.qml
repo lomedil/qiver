@@ -6,6 +6,7 @@ Item{
 
     property alias openLocalQmlFileDialog: openLocalFileDialog_
     property alias customSizeDialog: customSizeDialog_
+    property alias importPathDialog: importPathDialog_
 
     FileDialog{
         id: openLocalFileDialog_
@@ -16,5 +17,11 @@ Item{
 
     CustomSizeDialog{
         id: customSizeDialog_
+    }
+
+    FileDialog{
+        id: importPathDialog_
+        title: qsTr("Add import path");
+        selectFolder: true
     }
 }

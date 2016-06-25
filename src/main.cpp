@@ -2,14 +2,17 @@
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QtQml>
 #include <ComponentCacheManager.h>
 #include <QtGlobal>
 #include <OutputDataModel.h>
+#include <ModuleManager.h>
 
 static OutputDataModel *outputModel;
 static QtMessageHandler originalMessageHandler;
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+void registerQmlTypes();
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +21,8 @@ int main(int argc, char *argv[])
 
     outputModel = new OutputDataModel();
     originalMessageHandler = qInstallMessageHandler(myMessageHandler);
+
+    registerQmlTypes();
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
@@ -34,4 +39,9 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext &context, const Q
 {
     outputModel->addOutput(type, context, msg);
     originalMessageHandler(type, context, msg);
+}
+
+void registerQmlTypes()
+{
+    qmlRegisterType<ModuleManager>("Qiver", 1, 0, "ModuleManager");
 }

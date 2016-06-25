@@ -4,6 +4,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.1
 import "."
+import Qiver 1.0
 
 ApplicationWindow {
     id: app
@@ -30,6 +31,10 @@ ApplicationWindow {
                             contentframe.portviewHeight = size.height;
                             contentframe.portviewWidth = size.width;
                         });
+            importPathDialog.accepted.connect(
+                        function(){
+                            moduleManager.addImportPath(importPathDialog.folder);
+                        });
         }
     }
 
@@ -45,6 +50,12 @@ ApplicationWindow {
         onExitClicked: app.close()
         showOutputPanel: true
         onCustomSizeClicked: dialogs.customSizeDialog.open()
+        onAddImportPathClicked: dialogs.importPathDialog.open()
+        onClearClicked: contentframe.clearContent()
+    }
+
+    ModuleManager{
+        id: moduleManager
     }
 
 
@@ -74,7 +85,11 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            onContentCleared: cacheManager.clearCache() //Flush the whole cache
+            onContentCleared: {
+
+                cacheManager.clearCache() //Flush the whole cache
+                gc();
+            }
 
             portviewHeight: menu.portviewSizeSelected.height
             portviewWidth: menu.portviewSizeSelected.width

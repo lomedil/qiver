@@ -14,7 +14,8 @@ MenuBar{
     signal exitClicked()
     signal viewportClicked(int width, int height)
     signal customSizeClicked()
-    onViewportClicked: console.log("%1 %2".arg(width).arg(height))
+    signal addImportPathClicked()
+    signal clearClicked()
 
 
     readonly property var viewports: [
@@ -48,6 +49,18 @@ MenuBar{
             shortcut: "F5"
             onTriggered: contentframe.reload()
 
+        }
+
+        MenuItem{
+            text: qsTr("Clear")
+            onTriggered: clearClicked()
+        }
+
+        MenuSeparator{} // -----
+
+        MenuItem{
+            text: qsTr("Add import path...")
+            onTriggered: addImportPathClicked()
         }
 
         MenuSeparator{} // -----
@@ -107,4 +120,5 @@ MenuBar{
             }
         }
     }
+
 }
